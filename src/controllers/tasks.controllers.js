@@ -9,7 +9,13 @@ const createTask = async (req, res) => {
     }
 };
 
+const getAllTasks = async (req, res) => {
+    const data = await tasksServices.getAllTasks(req.query);
+    res.status(data.statusCode).json(data);
+  };
+
 
 module.exports = {
     createTask,
+    getAllTasks,
 }

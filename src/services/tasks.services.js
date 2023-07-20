@@ -13,7 +13,22 @@ const createTask = async (payload) => {
     };  
 }
 
+const getAllTasks = async (query) => {
+  try {
+    const tasks = await taskRepo.findAll(query);
+    return responses.buildSuccessResponse(
+      'Successfully fetched all tasks',
+      200,
+      tasks
+    );
+  } catch (error) {
+    return responses.buildFailureResponse('Failed to fetch tasks', 500);
+  }
+}
+
+
   
 module.exports = {
     createTask,
+    getAllTasks,
 }
