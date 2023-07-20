@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json())
 app.use(morgan('combined'))
 app.use('/users', require('./routes/users.routes'));
-
+app.use('/tasks', require('./routes/tasks.routes'));
 
 
 module.exports = app;

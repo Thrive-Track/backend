@@ -13,6 +13,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    name: {
+        type: String,
+        required: true
+    },
+    purpose: {
+        type: String,
+        enum: ["personalTasks", "workActivities", "teamProjects"],
+        required: true
+    },
+    experienceLevel: {
+        type: String,
+        enum: ["beginner", "intermediate", "expert"],
+    },
 }, {
     timestamps: true
 })
