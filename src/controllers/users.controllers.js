@@ -27,6 +27,14 @@ const forgotPassword = async (req, res) => {
     }
 };
 
+const resetPassword = async (req, res) => {
+    try {
+        const data = await usersServices.resetPassword(req.body);
+        res.status(data.statusCode).json(data);
+    } catch (error) {
+        res.status(500).send(error)
+    }
+  };
 
 
 
@@ -34,5 +42,6 @@ module.exports = {
     createUser,
     login,
     forgotPassword,
+    resetPassword,
 
 }

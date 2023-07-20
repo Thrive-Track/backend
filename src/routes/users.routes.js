@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.post('/create-user', usersControllers.createUser);
 router.post('/login', usersControllers.login);
+router.post('/forgot-password', usersControllers.forgotPassword);
+router.post('/reset-password', usersControllers.resetPassword);
 
 
 

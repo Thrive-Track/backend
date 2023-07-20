@@ -16,8 +16,8 @@ const save = async (instance) => {
     return await instance.save()
 }
 
-const findByIdAndUpdate = async (data) => {
-    return await User.findByIdAndUpdate(data._id, data, { new: true })
+const update = async (query, update, options = { new:true }) => {
+    return await User.findOneAndUpdate(query, update, options)
 }
 
 
@@ -26,5 +26,5 @@ module.exports = {
     findOne,
     create,
     save,
-    findByIdAndUpdate
+    update
 }

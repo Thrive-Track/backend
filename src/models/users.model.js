@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["beginner", "intermediate", "expert"],
     },
+    resetPin: {
+        type: String,
+        required: true
+    },
 }, {
     timestamps: true
 })

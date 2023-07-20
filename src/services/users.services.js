@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 
 const userRepo = require("../dataAccess/users.repo");
 const responses = require("../utils/responses");
+const { sendForgotPasswordMail } = require("../utils/sendMail");
+const generateResetPin = require("../utils/generateResetPin");
 
 const createUser = async (payload) => {
     try {
@@ -57,19 +59,69 @@ const login = async (payload) => {
 
 const forgotPassword = async (payload)=> {
      
-    const emailFound = await User.findOne({email: payload.email})
-    if(!emailFound) {
-        return responses.buildFailureResponse("Email not found", 400)
-    }
-    const resetPin = generateResetPin()
-    const updatedUser = await User.findByIdAndUpdate({_id: emailFound._id}, {resetPin: resetPin}, {new: true})
+    try {
+        const emailFound = await userRepo.findOne({email: payload.email})
+        if(!emailFound) {
+            return responses.buildFailureResponse("Email not found", 400)
+        }
+        const resetPin = generateResetPin()
+        const updatedUser = await userRepo.update({_id: emailFound._id}, {resetPin: resetPin}, {new: true})
     
-    await sendMail(updatedUser.contactEmail)
-    return responses.buildSuccessResponse("Forgot Password Successful", 200, updatedUser)
+        const mailPayload = {
+            to: updatedUser.email,
+            subject: "Forgot Password",
+            pin: resetPin
+        }
+        
+        await sendForgotPasswordMail(mailPayload)
+        return responses.buildSuccessResponse("Forgot Password Successful", 200, updatedUser)
+    } catch (error) {
+        return responses.buildErrorResponse(error, 500)
+    }
 }
+
+const resetPassword = async (payload) => {
+    try {
+        /**
+         * Validate if user exists with reset pin
+         * Hash the new password
+         * Store the new hashed password
+         */
+    
+        const foundUserAndPin = await userRepo.findOne({
+          email: payload.email,
+          resetPin: payload.resetPin,
+        });
+        
+        if (!foundUserAndPin) {
+          return responses.buildFailureResponse('Reset Pin Invalid', 400);
+        }
+      
+        // hashing the password here
+        const saltRounds = 10;
+        const generatedSalt = await bcrypt.genSalt(saltRounds);
+      
+        const hashedPassword = await bcrypt.hash(payload.password, generatedSalt);
+      
+        const updatedUser = await userRepo.update(
+          { _id: foundUserAndPin._id },
+          { password: hashedPassword, resetPin: null },
+          { new: true }
+        );
+      
+        return responses.buildSuccessResponse(
+          'Password Reset Successful',
+          200,
+          updatedUser
+        );
+    } catch (error) {
+        return responses.buildFailureResponse(error, 500)
+    }
+  };
 
     module.exports = {
     createUser,
     login,
     forgotPassword,
+    resetPassword
 }

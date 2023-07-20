@@ -16,6 +16,10 @@ const save = async (instance) => {
     return await instance.save()
 }
 
+const update = async (query, update, options = { new:true }) => {
+    return await Task.findOneAndUpdate(query, update, options)
+}
+
 
 
 module.exports = {
@@ -23,4 +27,5 @@ module.exports = {
     findOne,
     create,
     save,
+    update,
 }
