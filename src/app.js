@@ -1,20 +1,23 @@
 const express = require('express');
 const  dotenv = require('dotenv'); 
-const morgan = require("morgan")
+const morgan = require('morgan');
+const cors = require('cors');
 
-const connectDB = require('./config/database');
+const database = require('./config/database');
 
 
 dotenv.config();
 
-connectDB(process.env.MONGO_URI)
+database.connectDB();
 
 const app = express();
 
 app.use(express.json())
 app.use(morgan('combined'))
+app.use(cors());
 app.use('/users', require('./routes/users.routes'));
-app.use('/tasks', require('./routes/tasks.routes'));
+app.use('/task', require('./routes/tasks.routes'));
+
 
 
 module.exports = app;

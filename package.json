@@ -1,5 +1,5 @@
 {
-  "name": "thrive-track",
+  "name": "userauth-api",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Annabel",
@@ -21,12 +21,18 @@
     "nodemon": "^3.0.1"
   },
   "dependencies": {
-    "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "joi": "^17.10.2",
     "jsonwebtoken": "^9.0.1",
-    "mongoose": "^7.3.4",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "pg": "^8.11.3",
+    "sequelize": "^6.33.0",
+    "sequelize-cli": "^6.6.1"
   }
 }

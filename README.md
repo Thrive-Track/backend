@@ -1,4 +1,4 @@
-# This is the backend repo for ThriveTrack. 
+# This is a User Authentication API. 
 
 Clone this repository
 

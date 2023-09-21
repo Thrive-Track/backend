@@ -14,8 +14,26 @@ const getAllTasks = async (req, res) => {
     res.status(data.statusCode).json(data);
   };
 
+  const getTask = async (req, res) => {
+    const data = await tasksServices.getTask(req.query);
+    res.status(data.statusCode).json(data);
+  };
+
+  const updateTask = async (req, res) => {
+    const data = await tasksServices.updateTask(req.query);
+    res.status(data.statusCode).json(data);
+  };
+
+  const deleteTask = async (req, res) => {
+    const data = await tasksServices.deleteTask(req.query);
+    res.status(data.statusCode).json(data);
+  };
+
 
 module.exports = {
     createTask,
     getAllTasks,
+    getTask,
+    updateTask,
+    deleteTask,
 }

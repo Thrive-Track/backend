@@ -1,13 +1,19 @@
-const mongoose = require('mongoose');
+const { Sequelize } = require('sequelize');
 
-const connectDB = async (mongo_uri) => {
-    try {
-        const conn = await mongoose.connect(mongo_uri);
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-        console.error(error)
-        process.exit(1)
-    }
+// Passing the connection URI
+const sequelize = new Sequelize('postgres://zccvyjsd:lXE-lihi0hzZsAghLaA_RAopTmOKugWR@silly.db.elephantsql.com/zccvyjsd');
+
+const connectDB = async () => {
+try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
 }
+module.exports = {connectDB, sq: sequelize} ;
 
-module.exports = connectDB;
+
+
+
+

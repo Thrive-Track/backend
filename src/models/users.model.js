@@ -1,37 +1,35 @@
-const mongoose = require('mongoose')
+const { DataTypes } = require('sequelize');
+const { sq } = require('../config/database');
 
-const userSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: true
-    },
-    username: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    purpose: {
-        type: String,
-        enum: ["personalTasks", "workActivities", "teamProjects"],
-        required: true
-    },
-    experienceLevel: {
-        type: String,
-        enum: ["beginner", "intermediate", "expert"],
-    },
-    resetPin: {
-        type: String,
-        required: true
-    },
-}, {
-    timestamps: true
+const User = sq.define('user', {
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    
+    unique: true,
+  },
+  password: {
+    type: DataTypes.STRING,
+   
+  },
+  accessToken: {
+    type: DataTypes.STRING,
+  }
+});
+
+User.sync()
+.then(() =>{
+   console.log("User model synced successfully");
+})
+.catch((err) =>{
+  console.error(err);
 })
 
-module.exports = mongoose.model("User", userSchema)
+module.exports = User;
+
+
+
+
